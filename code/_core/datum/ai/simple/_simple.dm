@@ -1,0 +1,2 @@
+/ai/simple/
+	simple = TRUE

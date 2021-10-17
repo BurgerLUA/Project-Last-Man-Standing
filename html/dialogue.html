@@ -1,0 +1,188 @@
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<style>
+			body {
+				background-image:url('tile.png');
+				background-repeat: repeat;
+				color: white;
+				font-family: Arial Narrow,Arial,sans-serif;
+				font-size: 14px;
+				
+				width: 100%;
+				max-width: 100%;
+				height: 320px;
+				max-height: 320px;	
+
+				margin: 0;
+				padding: 0;				
+			}
+			a{
+				color:#96F1FF;
+			
+			}
+			a:hover{
+				color:#969FFF;
+			}
+			th,td {
+				border: 2px solid #5D96A0;
+			}
+			table#main_table {
+				width: 100%;
+				max-width: 100%;
+				height: 320px;
+				max-height: 320px;
+			}
+			#topic_container{
+				vertical-align: top;
+				text-align: left;			
+				padding: 0px;
+				width: 224px;
+			}
+			#topics {
+				width: 100%;
+				height: 220px;
+				overflow-y: scroll;
+				font-size: 18px;
+			}
+			#dialogue {
+				vertical-align: top;
+				text-align: left;
+				margin: 0;
+				padding: 12px;
+				font-size: 20px;
+			}
+			#character_name{
+				height: 32px;
+				font-size: 18px;
+				font-weight: bold;
+				text-align: center;
+			}
+			#goodbye {
+				height:32px;
+			}
+			button.extended {
+				background:url('button_blue_extended.png');
+				width: 120px;
+				height: 20px;
+				border: none;
+				cursor: pointer;
+				color: white;
+				padding: 0px;				
+			}			
+		</style>
+	</head>
+	<body>
+		<table id="main_table">
+			<tr>
+				<th id='character_name' colspan=3>
+					CHARACTER NAME
+				</th>
+			</tr>
+			<tr>
+				<th id='dialogue' rowspan=2>
+					<div id='text'>YOUR TEXT HERE.</div>
+					<hr>
+					<div id='options'>YOUR OPTIONS HERE.</div>
+				</th>
+				<th id="topic_container">
+					<div id='topics'></div>
+				</th>			
+			</tr>
+			<tr>
+				<th id='goodbye'>HELLO</th>
+			</tr>
+			
+			
+			
+		</table>
+	</body>
+	<script>
+		var global_reference
+		
+		var global_stored_topics = []
+	
+		function set_reference(reference) {
+			global_reference = reference
+		}
+
+		function add_topic(text,update) {
+			
+			var found = false
+			var i
+			for(i=0; i < global_stored_topics.length; i++) {
+				if(global_stored_topics[i] == text) {
+					found = true
+					break
+				}
+			}
+		
+			if(!found) {
+				global_stored_topics[global_stored_topics.length] = text
+			}
+
+			if(update) {
+				update_topics()
+			}
+		}
+		
+		function update_topics() {
+			var returning = ""
+			var existing_topics = [];
+			
+			var i
+			for(i=0; i < global_stored_topics.length; i++) {
+				var chosen_topic = global_stored_topics[i]
+				var formatted_link = "<a href='byond://?src="+global_reference+";topic="+ chosen_topic +"'>" + chosen_topic.replace("*","") + "</a>"
+				returning = returning + formatted_link + "<br>"
+			}
+			document.getElementById("topics").innerHTML = returning
+		}
+
+		function convert_data(text) {
+			var tabledata = text.split("_");
+			var topic_name = tabledata[0]
+			var dialogue = tabledata[1]
+	
+			if(dialogue) {
+				dialogue = dialogue.replace(/NEWLINE/g, "<br>")
+			}
+			
+			var i
+			for(i=2; i < tabledata.length; i++) {
+				var formatted_link = "<a href='byond://?src="+global_reference+";topic="+ tabledata[i] +"'>" + tabledata[i].replace("*","") + "</a>"
+				add_topic(tabledata[i])
+				dialogue = dialogue.replace("#" + (i-1).toString(), formatted_link)
+			}
+			
+
+
+			document.getElementById("dialogue").innerHTML = dialogue
+			update_topics()
+		
+		}	
+		
+		function goodbye() {
+			var desired_location = "byond://?src="+global_reference+";topic=goodbye"
+			window.location = desired_location
+		}
+		
+		function add_goodbye() {
+			document.getElementById("goodbye").innerHTML = "<button class='extended' onclick='goodbye()'>Goodbye</button>"
+		}
+		
+		function set_name(name) {
+			document.getElementById("character_name").innerHTML = name
+		}
+		
+		function done_loading() {
+			var desired_location = "byond://?done_loading=/menu/dialogue"
+			window.location = desired_location
+			add_goodbye()
+		}		
+		
+		done_loading()
+
+	</script>
+	
+</html>

@@ -1,0 +1,2 @@
+/health/plant
+	organic = TRUE

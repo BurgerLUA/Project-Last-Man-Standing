@@ -1,0 +1,510 @@
+macro "macro"
+	elem 
+		name = "Tab"
+		command = "toggle-focus"
+	elem "help"
+		name = "F1"
+		command = "help"
+	elem "options"
+		name = "F2"
+		command = ".options"
+	elem 
+		name = "ALT+F4"
+		command = ".quit"
+	elem "fullscreen"
+		name = "F11"
+		command = "toggle-fullscreen"
+	elem 
+		name = "F12"
+		command = ".screenshot auto"
+	elem 
+		name = "`"
+		command = ".command"
+
+
+menu "menu"
+	elem "file"
+		name = "File"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "&Help\tF1"
+		command = "show-help"
+		category = "File"
+		saved-params = "is-checked"
+	elem "options"
+		name = "&Options\tF2"
+		command = ".options"
+		category = "File"
+		saved-params = "is-checked"
+	elem "screenshot"
+		name = "&Screenshot\tF12"
+		command = ".screenshot"
+		category = "File"
+		saved-params = "is-checked"
+	elem "reconnect"
+		name = "&Reconnect"
+		command = ".reconnect"
+		category = "File"
+		saved-params = "is-checked"
+	elem "quit"
+		name = "&Quit\tALT+F4"
+		command = ".quit"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Edit &Macros..."
+		command = "edit-macros"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Graphics Settings"
+		command = ""
+		saved-params = "is-checked"
+	elem "fullscreen"
+		name = "&Fullscreen\tF11"
+		command = "toggle-fullscreen"
+		category = "Graphics Settings"
+		can-check = true
+		saved-params = "is-checked"
+	elem 
+		name = "&Client FPS"
+		command = "set-fps"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "&View Range"
+		command = "set-view-range"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "Toggle Zoom View &Lock"
+		command = "toggle-zoom-view-lock"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "Toggle Smooth &Shadows"
+		command = "toggle-smooth-shadows"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "Toggle &Depth"
+		command = "toggle-depth"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "Toggle Currency &Bloom"
+		command = "toggle-currency-bloom"
+		category = "Graphics Settings"
+		saved-params = "is-checked"
+	elem 
+		name = "Volume"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "&Volume - Master"
+		command = "set-volume-master"
+		category = "Volume"
+		saved-params = "is-checked"
+	elem 
+		name = "Volume - &Effects"
+		command = "set-volume-fx"
+		category = "Volume"
+		saved-params = "is-checked"
+	elem 
+		name = "Volume - &Footsteps"
+		command = "set-volume-footsteps"
+		category = "Volume"
+		saved-params = "is-checked"
+	elem 
+		name = "Volume - &Ambient"
+		command = "set-volume-ambient"
+		category = "Volume"
+		saved-params = "is-checked"
+	elem 
+		name = "Volume - &Music"
+		command = "set-volume-music"
+		category = "Volume"
+		saved-params = "is-checked"
+	elem "dev"
+		name = "Dev"
+		command = ""
+		saved-params = "is-checked"
+	elem "reboot"
+		name = "&Shutdown"
+		command = "trigger_shutdown"
+		category = "Dev"
+		saved-params = "is-checked"
+	elem "profile"
+		name = "&Profile Server"
+		command = ".profile"
+		category = "Dev"
+		saved-params = "is-checked"
+	elem 
+		name = "&Host Options..."
+		command = ".host"
+		category = "Dev"
+		saved-params = "is-checked"
+
+
+window "chat"
+	elem "chat"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Chat Tabs"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "tab"
+		type = TAB
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = "Arial Narrow"
+		font-size = 10
+		saved-params = ""
+		tabs = "chat_all,chat_say,chat_looc,chat_ooc,chat_combat"
+		current-tab = "chat_all"
+
+window "chat_all"
+	elem "chat_all"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "All"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "output"
+		type = OUTPUT
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = none
+		is-default = true
+		saved-params = "max-lines"
+		link-color = #000000
+		visited-color = #000000
+		legacy-size = false
+
+window "chat_combat"
+	elem "chat_combat"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Combat"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "output"
+		type = OUTPUT
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		saved-params = "max-lines"
+
+window "chat_looc"
+	elem "chat_looc"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "LOOC"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "output"
+		type = OUTPUT
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = none
+		saved-params = "max-lines"
+
+window "chat_ooc"
+	elem "chat_ooc"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "OOC"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "output"
+		type = OUTPUT
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = none
+		saved-params = "max-lines"
+
+window "chat_say"
+	elem "chat_say"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Say"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "output"
+		type = OUTPUT
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = none
+		saved-params = "max-lines"
+
+window "control"
+	elem "control"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "input"
+		type = INPUT
+		pos = 0,780
+		size = 800x20
+		anchor1 = 0,100
+		anchor2 = 100,100
+		is-default = true
+		border = sunken
+		saved-params = ""
+	elem "patreon"
+		type = BUTTON
+		pos = 600,0
+		size = 200x20
+		anchor1 = 75,0
+		anchor2 = 100,0
+		font-size = 8
+		font-style = "bold"
+		text-color = #ffffff
+		background-color = #ff3300
+		saved-params = "is-checked"
+		text = "Donate!"
+		command = "open-patreon"
+	elem "github"
+		type = BUTTON
+		pos = 400,0
+		size = 200x20
+		anchor1 = 50,0
+		anchor2 = 75,0
+		saved-params = "is-checked"
+		text = "Github"
+		command = "open-github"
+	elem "discord"
+		type = BUTTON
+		pos = 200,0
+		size = 200x20
+		anchor1 = 25,0
+		anchor2 = 50,0
+		saved-params = "is-checked"
+		text = "Discord"
+		command = "open-discord"
+	elem "wiki"
+		type = BUTTON
+		pos = 0,0
+		size = 200x20
+		anchor1 = 0,0
+		anchor2 = 25,0
+		saved-params = "is-checked"
+		text = "Wiki"
+		command = ""
+	elem "splitter"
+		type = CHILD
+		pos = 0,20
+		size = 800x760
+		anchor1 = 0,0
+		anchor2 = 100,100
+		is-default = true
+		saved-params = "splitter"
+		left = "info"
+		right = "chat"
+		is-vert = false
+		splitter = 25
+
+window "edit"
+	elem "edit"
+		type = MAIN
+		pos = 281,0
+		size = 640x480
+		anchor1 = none
+		anchor2 = none
+		is-visible = false
+		border = sunken
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Edit"
+	elem "exit"
+		type = BUTTON
+		pos = 540,460
+		size = 100x20
+		anchor1 = 100,100
+		anchor2 = 100,100
+		saved-params = "is-checked"
+		text = "Save and Exit"
+		command = ""
+	elem "input"
+		type = INPUT
+		pos = 0,0
+		size = 640x460
+		anchor1 = 0,0
+		anchor2 = 100,96
+		font-family = "monospace"
+		is-default = true
+		saved-params = ""
+		multi-line = true
+		no-command = true
+
+window "info"
+	elem "info"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "info"
+		type = INFO
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = "Arial Narrow"
+		font-size = 10
+		background-color = none
+		is-default = true
+		right-click = true
+		saved-params = ""
+		highlight-color = #000000
+		tab-font-family = "Arial Narrow"
+		tab-font-size = 10
+
+window "main"
+	elem "main"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		is-default = true
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Burgerstation 13"
+		icon = 'interface\\icons\\burger.png'
+		image-mode = center
+		macro = "macro"
+		menu = "menu"
+	elem "splitter"
+		type = CHILD
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		is-default = true
+		saved-params = "splitter"
+		left = "map"
+		right = "control"
+		is-vert = true
+		splitter = 75
+
+window "map"
+	elem "map"
+		type = MAIN
+		pos = 281,0
+		size = 800x800
+		anchor1 = none
+		anchor2 = none
+		saved-params = "pos;size;is-minimized;is-maximized"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		is-pane = true
+	elem "map"
+		type = MAP
+		pos = 0,0
+		size = 800x800
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = "serif"
+		font-size = 6
+		is-default = true
+		right-click = true
+		saved-params = "zoom;letterbox;zoom-mode"
+		zoom = 1
+		zoom-mode = distort
+	elem "paper"
+		type = BROWSER
+		pos = 100,40
+		size = 600x680
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = #eaeaea
+		is-visible = false
+		border = sunken
+		saved-params = ""
+	elem "dialogue"
+		type = BROWSER
+		pos = 60,420
+		size = 680x320
+		anchor1 = 0,100
+		anchor2 = 100,100
+		is-visible = false
+		saved-params = ""
+

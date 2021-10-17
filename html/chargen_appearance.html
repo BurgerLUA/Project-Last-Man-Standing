@@ -1,0 +1,750 @@
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<style>
+			body {
+				background-image:url('tile.png');
+				background-repeat: repeat;
+				color: white;
+				font-family: Arial Narrow,Arial,sans-serif;
+				font-size: 22px;
+				
+				scrollbar-3dlight-color:gold;
+				scrollbar-arrow-color:blue;
+				scrollbar-base-color:;
+				scrollbar-darkshadow-color:blue;
+				scrollbar-face-color:;
+				scrollbar-highlight-color:;
+				scrollbar-shadow-color:				
+
+			}
+			table{
+				color: white;
+				font-family: Arial Narrow,Arial,sans-serif;
+				font-size: 22px;
+			}
+			button.small {
+				background:url('button_blue.png');
+				width: 20px;
+				height: 20px;
+				border: none;
+				cursor: pointer;
+				color: white;
+				padding: 0px;
+			}
+			button.small:disabled {
+				background:url('button_grey.png');
+			}
+			button.extended {
+				background:url('button_blue_extended.png');
+				width: 120px;
+				height: 20px;
+				border: none;
+				cursor: pointer;
+				color: white;
+				padding: 0px;				
+			}
+			button.color {
+				width: 16px;
+				height: 16px;
+				border: none;
+				cursor: pointer;
+				color: white;
+				padding: 0px;
+				margin: 0px;
+			}
+			button.extended:disabled {
+				background:url('button_green_extended.png');
+			}			
+			button#char_submit{
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			textarea {
+				background-color: transparent;
+				resize: none;
+				overflow: hidden;
+				color: white;
+				font-family: Arial Narrow,Arial,sans-serif;
+				font-size:18px;
+			}
+			textarea.description {
+				max-width: 100%;
+				min-width: 100%;
+				min-height: 100%;
+				max-height: 100%;			
+			}
+			textarea.name {
+				font-size: 48px;
+				max-width: 384px;
+				min-width: 384px;		
+				text-align: center;
+			}
+			textarea.title {
+				font-size: 24px;
+				max-width: 384px;
+				min-width: 384px;		
+				text-align: center;
+			}
+			input[type='color']{
+				max-width: 100%;
+				min-width: 100%;
+				min-height: 100%;
+				max-height: 100%;
+			}
+			input[type='range']{
+				padding: 4px;
+				width: 256px;
+			}
+			input[type='text']{
+				color: white;
+				font-family: Arial Narrow,Arial,sans-serif;
+				font-size: 32px;				
+				width: 256px;
+				text-align: center;
+				background: transparent;
+				border: 1px solid white;
+			}			
+			input.appearance{
+				 background-image:url('chargen_head.png');
+			}
+			.scroll{
+				overflow-x: scroll;
+				max-width: 80px;
+				overflow-y: hidden;
+				white-space: nowrap;
+			}
+			
+			.icons{
+				overflow-x: hidden;
+				max-width: 80px;
+				overflow-y: hidden;
+				white-space: nowrap;			
+			}
+			
+			div.colored{
+				width:15px;
+				height:15px;
+				background:blue;
+			}		
+			#color_picker{
+				display: none;
+				position: absolute;
+				z-index: 1;
+				width: 320px;
+				height 320px;
+				background-image:url('tile.png');
+				background-repeat: repeat;
+				border: 2px solid white;
+			}
+			#chosen_color{
+				width: 320px;
+				height: 32px;
+				min-width: 320px;
+				max-width: 320px;
+				background-color:#000000;
+				width: 50%;
+				
+				padding:0px;
+				margin:auto;
+				margin-min:32px;
+				margin-bottom:32px;
+			}
+			#hover_color{
+				width: 320px;
+				height: 32px;
+				min-width: 320px;
+				max-width: 320px;
+				background-color:#FFFFFF;
+				width: 50%;
+				
+				padding:0px;
+				margin:auto;
+				margin-min:32px;
+				margin-bottom:0px;
+			}	
+			#close_button{
+				float: right;
+				margin: 0px;
+			
+			}
+			h1 {
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Character Creation</h1>
+		<hr width='50%'>
+		<table id='formatting' width='100%'>
+			<tr height='1px'>
+				<th align='center'>
+					<img id='portrait_north' width='128px' height='128px' src='' onmouseover="hover_update('The horror you have created.')"></img>
+					<img id='portrait_east' width='128px' height='128px' src='' onmouseover="hover_update('The horror you have created.')"></img>
+					<img id='portrait_south' width='128px' height='128px' src='' onmouseover="hover_update('The horror you have created.')"></img>
+					<img id='portrait_west' width='128px' height='128px' src='' onmouseover="hover_update('The horror you have created.')"></img><br>
+					
+					<input type='text' class='name' rows="1" cols="48" value="Name" onmouseover="hover_update('Your name and what people will identify you as when your face is visible. This can only be changed by special people after character creation.')" onchange="setName(this.value)">						
+				</th>
+			</tr>
+		</table>
+		<table id='customization' width='100%'>
+			<tr>
+				<th>
+					<table id = "color_customization" width='100%'>
+						<tr onmouseover="hover_update('What private parts god has given you.')">
+							<th width='45%' align='right'>
+								Sex:
+							</th>
+							<th width='55%' align='left'>
+								<button class='extended' disabled=true id="sex_m" onclick="update_sex('m')">Male &#9794;</button>
+								<button class='extended' id="sex_f" onclick="update_sex('f')">Female &#9792;</button>
+							</th>
+						</tr>
+						<!--
+						<tr onmouseover="hover_update('What gender identify you\'ve given yourself. Despite rampant exploitive anarcho-capitalism taking over the galaxy, those pesky liberals have made a lot of progress since The Great Race War of 2020 to the point where 4 out of the 8000 existing genders are options.')">
+							<th>
+								Gender:
+							</th>
+							<th width='75%'>
+								<button class='extended' disabled=true id="gender_m" onclick="update_gender('m')">He &#9794;</button>
+								<button class='extended' id="gender_f" onclick="update_gender('f')">She &#9792;</button>
+								<button class='extended' id="gender_p" onclick="update_gender('p')">They &#9895;</button>
+								<button class='extended' id="gender_n" onclick="update_gender('n')">It &#9675;</button>
+							</th>
+						</tr>
+						-->
+						<tr onmouseover="hover_update('How light or dark your skin tone is. Determines how often you can get away with using certain racial slurs.')">
+							<th align='right'>
+								Skin Tone:
+							</th>
+							<th align='left'>
+								<button class='extended' onclick="change_color_of('skin')">Choose...</button>
+							</th>
+						</tr>
+						<tr onmouseover="hover_update('The color of your lips, or to be honest, the mouth considering it is very difficult to represent lips on a 9x9 head.')">
+							<th align='right'>
+								Lip Color:
+							</th>
+							<th align='left'>
+								<button class='extended' onclick="change_color_of('lips')">Choose...</button><button id="toggle_lips" class='small' onclick="toggle_lips()">+</button>
+							</th>
+						</tr>	
+						<tr onmouseover="hover_update('Your blush color. Basically lets other players know you\'re either a completely original troll trying to make the 5793rd male genderless crossdressing character or some thot.')">
+							<th align='right'>
+								Blush Color:
+							</th>
+							<th align='left'>
+								<button class='extended' onclick="change_color_of('blush')">Choose...</button><button id="toggle_blush" class='small' onclick="toggle_blush()">+</button>
+							</th>
+						</tr>							
+						<tr onmouseover="hover_update('The color of your eyes. Set to a color other than what\'s naturally possible and people will know to stay away from you.')">
+							<th align='right'>
+								Eye Color:
+							</th>
+							<th align='left'>
+								<button class='extended' onclick="change_color_of('eyes')">Choose...</button>
+							</th>
+						</tr>
+					</table>
+				</th>
+			</tr>
+		</table>
+		<table id='icons' width='100%'>
+		</table>
+		<button class='extended' id='char_submit' onmouseover="hover_update('Save your creation and play the damn game already.')" onclick="get_data_to_send(true)">Finish Character</button>
+		<hr width='50%'>
+		<!--HIDDEN STUFF  get_data_to_send(true)-->
+		<div id="color_picker">
+			Color Selection <button id='close_button' class='small' onclick='close_colors()'>x</button>
+			<div id='colors'></div>
+			<div id='hover_color'></div>
+			<div id='chosen_color'></div>
+		</div>
+	
+	</body>
+	
+	<script>
+
+		var global_reference = ""
+		
+		var global_color_id = ""
+		
+		var global_hair_head_style = "none"
+		var global_hair_head_color = "000000"
+
+		var global_hair_face_style = "none"
+		var global_hair_face_color = "000000"
+
+		var global_skin_color = "FFCCAF"
+		var global_skin_sex = "m"
+		var global_skin_value = 100
+		var global_skin_complexion_value = 0
+
+		var global_eye_color = "000000"
+		
+		var global_has_lips = false
+		var global_lip_color = "FFCCAF"
+		
+		var global_has_blush = false
+		var global_blush_color = "FFCCAF"
+		
+		var global_skin_gender = "m"
+		
+		var global_name = "Lost Soul"		
+
+		function set_color(color_id,desired_color) {
+
+			document.getElementById("chosen_color").style.backgroundColor = desired_color
+
+			if(color_id == "hair_head") {
+				global_hair_head_color = desired_color
+			}
+			else if(color_id == "hair_face") {
+				global_hair_face_color = desired_color	
+			}
+			else if(color_id == "skin") {
+				global_skin_color = desired_color
+			}		
+			else if(color_id == "eyes") {
+				global_eye_color = desired_color
+			}
+			else if(color_id == "lips") {
+				global_lip_color = desired_color
+			}
+			else if(color_id == "blush") {
+				global_blush_color = desired_color
+			}
+			
+			get_data_to_send()
+		}
+		
+		function close_colors() {
+			var color_picker = document.getElementById("color_picker")
+			color_picker.style.display = "none"
+		}
+		
+		function change_color_of(color_id) {
+			var color_picker = document.getElementById("color_picker")
+			var e = window.event
+			var pageX = e.clientX
+			var pageY = e.clientY
+			//Generate
+			global_color_id = color_id
+			
+			if(color_id == "eyes") {
+				quick_generate_eyes()
+			}
+			else if(color_id == "skin") {
+				quick_generate_skin()
+			}	
+			else if(color_id == "hair_head") {
+				quick_generate_hair()
+			}
+			else if(color_id == "hair_face") {
+				quick_generate_hair()
+			}
+			else if(color_id == "blush") {
+				quick_generate_blush()
+			}
+			else if(color_id == "lips") {
+				quick_generate_lips()
+			}		
+			
+			//Display
+			color_picker.style.left = pageX.toString() + "px"
+			color_picker.style.top = pageY.toString() + "px"
+			color_picker.style.display = "block"
+		}
+
+		function setName(desired_name) {
+			global_name = encodeURI(desired_name)
+		}
+
+		function toggle_blush() {
+			global_has_blush = !global_has_blush
+			if(global_has_blush) {
+				document.getElementById("toggle_blush").innerHTML = "-"
+			}
+			else {
+				document.getElementById("toggle_blush").innerHTML = "+"
+			}	
+			get_data_to_send()
+		}
+		
+		function toggle_lips() {
+			global_has_lips = !global_has_lips
+			if(global_has_lips) {
+				document.getElementById("toggle_lips").innerHTML = "-"
+			}
+			else {
+				document.getElementById("toggle_lips").innerHTML = "+"
+			}
+			get_data_to_send()
+		}
+		
+		function hover_update(text) {
+			//document.getElementById("help_text").innerHTML = text
+		}
+		
+		function update_skin_color() {
+			var r = Math.floor(global_skin_value*0.01*255)
+			var g = Math.floor(global_skin_value*0.01*204)
+			var b = Math.floor(Math.max(0,global_skin_value*0.01*175 - global_skin_complexion_value*0.01*175 ))
+			send_color("skin",rgbToHex(r,g,b))
+		}
+	
+		function refresh_character() {
+			document.getElementById("portrait_north").src="character_NORTH.png?" + get_image_modifier()
+			document.getElementById("portrait_east").src="character_EAST.png?" + get_image_modifier()
+			document.getElementById("portrait_south").src="character_SOUTH.png?" + get_image_modifier()
+			document.getElementById("portrait_west").src="character_WEST.png?" + get_image_modifier()
+		}
+		
+		function get_image_modifier() {
+			return global_hair_head_style + global_hair_head_color + global_hair_face_style + global_hair_face_color + global_skin_color + global_skin_sex + global_eye_color + global_lip_color + global_blush_color + global_has_lips + global_has_blush
+		}
+		
+		function update_sex(desired_sex) {
+			global_skin_sex = desired_sex
+			
+			document.getElementById("sex_m").disabled = (desired_sex == "m")
+			document.getElementById("sex_f").disabled = (desired_sex == "f")
+
+			get_data_to_send()
+		}
+		
+		function update_gender(desired_gender) {
+			global_skin_gender = desired_gender
+			document.getElementById("gender_m").disabled = (desired_gender == "m")
+			document.getElementById("gender_f").disabled = (desired_gender == "f")
+			document.getElementById("gender_p").disabled = (desired_gender == "p")
+			document.getElementById("gender_n").disabled = (desired_gender == "n")
+			get_data_to_send()
+		}		
+		
+
+		function rgbToHex(r, g, b) {
+			return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+		}
+	
+		function generate_color_icon_picker(type,hair_ids) {
+
+			hair_ids = hair_ids.split("|");
+
+			var icons = ""
+			
+			for(i = 0; i < hair_ids.length; i++) {
+				var final_button = "<input onclick=\"global_"+type+"_style='"+hair_ids[i]+"';get_data_to_send()\" type='image' class='appearance' id='" + hair_ids[i] + "' src='" + hair_ids[i] + ".png'/>"
+				icons += final_button
+			}
+			
+			var name_to_type = {hair_head: "Hair",hair_face: "Facial Hair"}
+			document.getElementById("icons").innerHTML += "<tr onmouseover=\"hover_update('The style of your " + name_to_type[type].toLowerCase() + ", if you have any.')\")><th width='1px'><input type='image' onclick=\"document.getElementById('scroll_" + type + "').scrollLeft -= 64\" src='left.png'/></th><th height='64px' class='icons' id='scroll_" + type + "'>" + icons + "</th><th width='1px'><input type='image' onclick=\"document.getElementById('scroll_" + type + "').scrollLeft += 64\" src='right.png'/></th></tr>"
+			
+			//<input type="image" src="http://example.com/path/to/image.png" />
+			
+			document.getElementById("color_customization").innerHTML += "<tr onmouseover=\"hover_update('The color of your " + name_to_type[type].toLowerCase() + ", if you have any.')\")><th align='right'>" + name_to_type[type] + " Color:</th><th align='left'><button class='extended' onclick=\"change_color_of('" + type + "')\">Choose...</button></th></tr>"
+
+		}
+		
+		function get_data_to_send(save_and_quit) {
+			if(!save_and_quit)
+				save_and_quit = false;
+		
+			if(!global_reference)
+				return
+
+			var desired_location = "byond://?src="+global_reference+";skin_color="+global_skin_color+";sex="+global_skin_sex+";gender="+global_skin_gender+";hair_style="+global_hair_head_style+";hair_color="+global_hair_head_color+";beard_style="+global_hair_face_style+";beard_color="+global_hair_face_color+";eye_color="+global_eye_color+";lip_color="+global_lip_color+";blush_color="+global_blush_color+";blush_enabled="+global_has_blush+";lips_enabled="+global_has_lips+";save_and_quit="+save_and_quit+";name="+global_name
+			window.location = desired_location
+
+		}
+
+		function set_reference(reference) {
+			global_reference = reference
+		}
+
+		function done_loading() {
+			var desired_location = "byond://?done_loading=appearance_editor"
+			window.location = desired_location
+		}
+		
+		function quick_generate_blush() {
+		
+			var colors_to_generate = []
+
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(255)
+				var g = Math.floor(0 * mod)
+				var b = Math.floor(255 * mod)
+				
+				colors_to_generate[x] = "#" + rgbToHex(r, g, b)
+			}
+			
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(255)
+				var g = Math.floor(170 - (170 * mod))
+				var b = Math.floor(220)
+				
+				colors_to_generate[x+20] = "#" + rgbToHex(r, g, b)
+			}			
+			
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(178)
+				var g = Math.floor(0)
+				var b = Math.floor(255*mod)
+				
+				colors_to_generate[x+40] = "#" + rgbToHex(r, g, b)
+			}
+			
+			generate_colors(colors_to_generate)
+		
+		}
+
+		function quick_generate_lips() {
+		
+			var colors_to_generate = []
+
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(255)
+				var g = Math.floor(0 * mod)
+				var b = Math.floor(255 * mod)
+				
+				colors_to_generate[x] = "#" + rgbToHex(r, g, b)
+			}
+			
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(255)
+				var g = Math.floor(170 - (170 * mod))
+				var b = Math.floor(220)
+				
+				colors_to_generate[x+20] = "#" + rgbToHex(r, g, b)
+			}			
+			
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(178)
+				var g = Math.floor(0)
+				var b = Math.floor(255*mod)
+				
+				colors_to_generate[x+40] = "#" + rgbToHex(r, g, b)
+			}
+			
+			generate_colors(colors_to_generate)
+		
+		}		
+
+		function quick_generate_skin() {
+		
+			var colors_to_generate = []
+
+			for(x=0; x < 20; x++) {
+				var modi = x*4
+				var mod = (100 - modi)/100
+				var r = Math.floor(224 * mod)
+				var g = Math.floor(198 * mod)
+				var b = Math.floor(175 * mod)
+				
+				colors_to_generate[x] = "#" + rgbToHex(r, g, b)
+				
+				for(y=0;y < 5; y++) {
+					var mody = y*4
+					
+					var mod2 = (100 - mody)/100
+					b = Math.floor(b * mod2)
+					
+					var final_key = x + y*20
+					colors_to_generate[final_key] = "#" + rgbToHex(r, g, b)
+				}
+
+			}
+		
+			generate_colors(colors_to_generate)
+		
+		}
+		
+		function quick_generate_eyes() {
+		
+			var colors_to_generate = []
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(200 * mod)
+				var g = Math.floor(200 * mod)
+				var b = Math.floor(200 * mod)
+				
+				colors_to_generate[i] = "#" + rgbToHex(r, g, b)
+			}			
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(78 * mod)
+				var g = Math.floor(248 * mod)
+				var b = Math.floor(255 * mod)
+				
+				colors_to_generate[i+20] = "#" + rgbToHex(r, g, b)
+			}
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(50 * mod)
+				var g = Math.floor(150 * mod)
+				var b = Math.floor(50 * mod)
+				
+				colors_to_generate[i + 40] = "#" + rgbToHex(r, g, b)
+			}
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(165 * mod)
+				var g = Math.floor(165 * mod)
+				var b = Math.floor(0 * mod)
+				
+				colors_to_generate[i + 60] = "#" + rgbToHex(r, g, b)
+			}	
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(132 * mod)
+				var g = Math.floor(78 * mod)
+				var b = Math.floor(39 * mod)
+				
+				colors_to_generate[i + 80] = "#" + rgbToHex(r, g, b)
+			}	
+			
+			generate_colors(colors_to_generate)
+		
+		}
+	
+		function quick_generate_hair() {
+		
+			var colors_to_generate = []
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(235 * mod)
+				var g = Math.floor(235 * mod)
+				var b = Math.floor(235 * mod)
+				
+				colors_to_generate[i] = "#" + rgbToHex(r, g, b)
+			}	
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(255 * mod)
+				var g = Math.floor(235 * mod)
+				var b = Math.floor(178 * mod)
+				
+				colors_to_generate[i+20] = "#" + rgbToHex(r, g, b)
+			}				
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(226 * mod)
+				var g = Math.floor(196 * mod)
+				var b = Math.floor(145 * mod)
+				
+				colors_to_generate[i+40] = "#" + rgbToHex(r, g, b)
+			}	
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(155 * mod)
+				var g = Math.floor(74 * mod)
+				var b = Math.floor(27 * mod)
+				
+				colors_to_generate[i+60] = "#" + rgbToHex(r, g, b)
+			}				
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(132 * mod)
+				var g = Math.floor(55 * mod)
+				var b = Math.floor(0 * mod)
+				
+				colors_to_generate[i+80] = "#" + rgbToHex(r, g, b)
+			}	
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(165 * mod)
+				var g = Math.floor(52 * mod)
+				var b = Math.floor(0 * mod)
+				
+				colors_to_generate[i+100] = "#" + rgbToHex(r, g, b)
+			}
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(193 * mod)
+				var g = Math.floor(47 * mod)
+				var b = Math.floor(54 * mod)
+				
+				colors_to_generate[i+140] = "#" + rgbToHex(r, g, b)
+			}	
+			
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(39 * mod)
+				var g = Math.floor(58 * mod)
+				var b = Math.floor(70 * mod)
+				
+				colors_to_generate[i+160] = "#" + rgbToHex(r, g, b)
+			}					
+
+			for(i=0; i < 20; i++) {
+				var modi = i*5
+				var mod = (100 - modi)/100
+				var r = Math.floor(255 * mod)
+				var g = Math.floor(105 * mod)
+				var b = Math.floor(0 * mod)
+				
+				colors_to_generate[i+120] = "#" + rgbToHex(r, g, b)
+			}	
+			
+			generate_colors(colors_to_generate)
+			
+		
+		}
+
+		function generate_colors(color_list) {
+			document.getElementById("colors").innerHTML = ""
+			for(i=0; i < color_list.length; i++) {
+				var color_hex = color_list[i].replace("#", "")
+				document.getElementById("colors").innerHTML += "<button class='color' onmouseover=\"document.getElementById('hover_color').style.backgroundColor='#" + color_hex +"'\" style='background-color: #" + color_hex + ";' onclick=\"set_color('" + global_color_id + "','" + color_hex + "')\"></button>"
+			}
+		}
+		
+		done_loading()
+		
+		
+	</script>
+	
+	
+	
+</html>
